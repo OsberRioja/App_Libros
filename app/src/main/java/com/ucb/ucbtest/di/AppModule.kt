@@ -29,15 +29,54 @@ import com.ucb.framework.datastore.LoginDataSource
 import com.ucb.framework.push.FirebaseNotificationDataSource
 import com.ucb.usecases.GetEmailKey
 import com.ucb.usecases.ObtainToken
+import androidx.room.Room
+import com.ucb.data.local.AppDatabase
+import com.ucb.data.local.dao.BookDao
+import com.ucb.data.remote.BookApiService
+import com.ucb.data.repository.BookRepositoryImpl
+import com.ucb.domain.repository.BookRepository
+import dagger.Binds
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    // Retrofit
     @Provides
     @Singleton
-    fun providerRetrofitBuilder(@ApplicationContext context: Context) : RetrofitBuilder {
-        return RetrofitBuilder(context)
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://openlibrary.org/")  // Base URL de la API
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookApiService(retrofit: Retrofit): BookApiService {
+        return retrofit.create(BookApiService::class.java)
+    }
+
+//    // Room Database
+//    @Provides
+//    @Singleton
+//    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
+//        return Room.databaseBuilder(appContext, AppDatabase::class.java, "books_db")
+//            .build()
+//    }
+
+    // Repositorio
+    @Provides
+    @Singleton
+    fun provideBookRepository(apiService: BookApiService, bookDao: BookDao): BookRepository {
+        return BookRepositoryImpl(apiService, bookDao)
+    }
+
+    @Provides
+    fun provideBookDao(database: AppDatabase): BookDao {
+        return database.bookDao()
     }
 
 
