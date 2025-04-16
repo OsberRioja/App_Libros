@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.google.gms.google.services)
+//  id("kotlin-kapt")
+//  id("dagger-hilt-android-plugin")
 }
 android {
     namespace = "com.ucb.ucbtest"
@@ -38,9 +40,22 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 }
 dependencies {
+    implementation(libs.converter.gson)
+    // Room
+    implementation(libs.room.compiler)
+
+    // Navigation
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+
+    // Lifecycle & Coroutines
+    //implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
     implementation(libs.retrofit)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

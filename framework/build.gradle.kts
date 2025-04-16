@@ -25,6 +25,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -58,6 +63,7 @@ dependencies {
     testImplementation(libs.room.testing)
 
     implementation(libs.datastore)
+    implementation("androidx.fragment:fragment-ktx:1.6.0")
 
 
     debugImplementation(libs.chucker)
