@@ -10,4 +10,5 @@ java {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(libs.androidx.room.common.jvm)
 }
