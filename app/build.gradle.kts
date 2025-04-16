@@ -89,7 +89,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.firebase.messaging)
-
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(project(":usecases"))
     implementation(project(":domain"))
     implementation(project(":data"))
